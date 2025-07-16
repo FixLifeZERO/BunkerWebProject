@@ -1,0 +1,46 @@
+# This file lists the original texture assets from the Pygame version.
+# For the web version, these can be used as background images or icons.
+
+# Backgrounds
+assets/backgrounds/main_menu_bg.png
+assets/backgrounds/dialogue_box_bg.png
+assets/backgrounds/settings_bg.png
+assets/backgrounds/bunker_bg.png
+
+# Characters
+assets/characters/player_idle.png
+assets/characters/npc_organization_agent.png
+assets/characters/npc_tadmavriel.png
+
+# Icons
+assets/icons/laptop_icon.png
+assets/icons/suit_icon.png
+assets/icons/food_icon.png
+assets/icons/water_icon.png
+assets/icons/save_icon.png
+assets/icons/settings_icon.png
+assets/icons/exit_icon.png
+assets/icons/game_icon.png
+
+# UI Elements
+assets/ui/button_normal.png
+assets/ui/button_hover.png
+assets/ui/button_pressed.png
+assets/ui/checkbox_checked.png
+assets/ui/checkbox_unchecked.png
+assets/ui/slider_background.png
+assets/ui/slider_handle.png
+
+
+
+
+
+
+
+
+
+
+
+
+
+

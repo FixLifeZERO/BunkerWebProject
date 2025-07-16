@@ -1,0 +1,164 @@
+body {
+    font-family: 'Courier New', Courier, monospace;
+    color: #c6a963;
+    background-color: #000;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+}
+
+.screen-container {
+    width: 1024px;
+    height: 768px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.main-menu-bg {
+    background-image: url('assets/backgrounds/main_menu_bg.png');
+}
+
+.settings-bg {
+    background-image: url('assets/backgrounds/settings_bg.png');
+}
+
+.bunker-bg {
+    background-image: url('assets/backgrounds/bunker_bg.png');
+    justify-content: flex-start; /* Align content to the top */
+}
+
+.game-over-bg {
+    background-image: url('assets/backgrounds/dialogue_box_bg.png'); /* Using dialogue box for game over */
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.btn {
+    background-image: url('assets/ui/button_normal.png');
+    background-color: transparent;
+    background-size: 100% 100%;
+    border: none;
+    color: #c6a963;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    cursor: pointer;
+    text-align: center;
+    min-width: 250px;
+    text-shadow: 1px 1px 2px black;
+}
+
+.btn:hover {
+    background-image: url('assets/ui/button_hover.png');
+    color: #fff;
+}
+
+.btn:active {
+    background-image: url('assets/ui/button_pressed.png');
+}
+
+.game-layout {
+    display: grid;
+    grid-template-columns: 250px 1fr 250px;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+        "header header header"
+        "left-panel center-panel right-panel"
+        "footer footer footer";
+    width: 100%;
+    height: 100%;
+    gap: 20px;
+}
+
+.game-header {
+    grid-area: header;
+    text-align: center;
+    font-size: 1.5em;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.left-panel {
+    grid-area: left-panel;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.character-display {
+    width: 150px;
+    height: 250px;
+    background-image: url('assets/characters/player_idle.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.stats-panel {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.stat-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
+
+.center-panel {
+    grid-area: center-panel;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.messages-log {
+    background-image: url('assets/backgrounds/dialogue_box_bg.png');
+    background-size: 100% 100%;
+    padding: 40px;
+    height: 200px;
+    overflow-y: auto;
+    border-radius: 5px;
+    color: #e0e0e0;
+}
+
+.right-panel {
+    grid-area: right-panel;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.game-over-screen {
+    color: #c6a963;
+}
+
+h1 {
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px black;
+}

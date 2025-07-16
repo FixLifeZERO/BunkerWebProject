@@ -1,0 +1,36 @@
+## Список необхідних ресурсів (приклади)
+
+# Фони
+assets/backgrounds/main_menu_bg.png
+assets/backgrounds/bunker_bg.png
+assets/backgrounds/settings_bg.png
+assets/backgrounds/dialogue_box_bg.png
+
+# Персонажі (якщо потрібні окремі спрайти)
+assets/characters/player_idle.png
+assets/characters/npc_tadmavriel.png
+assets/characters/npc_organization_agent.png
+
+# Інтерфейс / Іконки
+assets/icons/laptop_icon.png
+assets/icons/suit_icon.png
+assets/icons/food_icon.png
+assets/icons/water_icon.png
+assets/icons/save_icon.png
+assets/icons/settings_icon.png
+assets/icons/exit_icon.png
+assets/ui/button_normal.png
+assets/ui/button_hover.png
+assets/ui/button_pressed.png
+assets/ui/slider_background.png
+assets/ui/slider_handle.png
+assets/ui/checkbox_checked.png
+assets/ui/checkbox_unchecked.png
+
+# Музика / Звуки
+music/main_menu_theme.ogg
+music/bunker_ambient.ogg
+sounds/button_click.wav
+sounds/event_notification.wav
+sounds/error.wav
+sounds/save_load.wav

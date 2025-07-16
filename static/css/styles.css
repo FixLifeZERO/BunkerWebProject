@@ -1,0 +1,43 @@
+
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+.game-container {
+    display: grid;
+    grid-template-columns: 200px 1fr 200px;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.suit-status {
+    grid-column: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.character-status {
+    grid-column: 2;
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.actions {
+    grid-column: 3;
+    padding: 10px;
+}
+
+.messages {
+    grid-column: 1 / span 3;
+    margin-top: 20px;
+    padding: 10px;
+    background: #f5f5f5;
+    border-radius: 5px;
+}
