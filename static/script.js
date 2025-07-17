@@ -66,3 +66,11 @@ function toggleLaptop() {
         modal.classList.toggle('hidden');
     }
 }
+
+// --- Laptop Menu Toggle Function ---
+function toggleLaptopMenu() {
+    const dropdown = document.getElementById('laptop-menu-dropdown');
+    if (dropdown) {
+        dropdown.classList.toggle('hidden');
+    }
+}

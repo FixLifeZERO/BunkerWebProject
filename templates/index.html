@@ -40,9 +40,9 @@
         </header>
 
         <div class="game-main-view">
-            <div class="character-area" title="{{ get_text('health') }}: {{ gs.health }}%">
+            <div class="character-area" data-tooltip="{{ get_text('health') }}: {{ gs.health }}%">
             </div>
-            <div class="suit-area" title="{{ get_text('suit_charge') }}: {{ gs.suit_charge }}%">
+            <div class="suit-area" data-tooltip="{{ get_text('suit_charge') }}: {{ gs.suit_charge }}%">
             </div>
             <div class="laptop-icon" onclick="toggleLaptop()">
             </div>
@@ -51,15 +51,28 @@
         <div id="laptop-modal" class="laptop-modal hidden">
             <div class="laptop-header">
                 <h3>{{ get_text('laptop_options') }}</h3>
-                <button class="close-btn" onclick="toggleLaptop()">X</button>
+                <div class="laptop-header-controls">
+                    <div class="laptop-menu-container">
+                        <div class="laptop-menu-icon" onclick="toggleLaptopMenu()">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <div id="laptop-menu-dropdown" class="laptop-menu-dropdown hidden">
+                            <form method="POST">
+                                <button type="submit" name="action" value="open_settings" class="btn btn-holographic">{{ get_text('settings') }}</button>
+                                <button type="submit" name="action" value="exit_to_menu" class="btn btn-holographic">{{ get_text('exit_to_menu') }}</button>
+                            </form>
+                        </div>
+                    </div>
+                    <button class="close-btn" onclick="toggleLaptop()">X</button>
+                </div>
             </div>
             <div class="laptop-content">
                  <form method="POST" class="laptop-button-container">
                     <button type="submit" name="action" value="go_outing" class="btn btn-holographic">{{ get_text('go_on_outing') }}</button>
                     <button type="submit" name="action" value="charge_suit" class="btn btn-holographic">{{ get_text('charge_suit') }}</button>
                     <button type="submit" name="action" value="skip_day" class="btn btn-holographic">{{ get_text('skip_day') }}</button>
-                    <button type="submit" name="action" value="open_settings" class="btn btn-holographic">{{ get_text('settings') }}</button>
-                    <button type="submit" name="action" value="exit_to_menu" class="btn btn-holographic">{{ get_text('exit_to_menu') }}</button>
                 </form>
             </div>
             <div class="messages-log-container">

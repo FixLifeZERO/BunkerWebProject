@@ -117,8 +117,8 @@ h1 {
 }
 
 .character-area {
-    width: 200px;
-    height: 400px;
+    width: 220px;
+    height: 440px;
     background-image: url('assets/characters/player_idle.png');
     background-size: contain;
     background-repeat: no-repeat;
@@ -126,11 +126,17 @@ h1 {
     grid-column: 2;
     grid-row: 1;
     align-self: center;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.character-area:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 15px #4CAF50);
 }
 
 .suit-area {
-    width: 150px;
-    height: 300px;
+    width: 180px;
+    height: 360px;
     background-image: url('assets/icons/suit_icon.png');
     background-size: contain;
     background-repeat: no-repeat;
@@ -139,11 +145,17 @@ h1 {
     grid-row: 1;
     align-self: center;
     justify-self: start;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.suit-area:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 15px #00ffff);
 }
 
 .laptop-icon {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
     background-image: url('assets/icons/laptop_icon.png');
     background-size: contain;
     background-repeat: no-repeat;
@@ -154,6 +166,12 @@ h1 {
     align-self: end;
     justify-self: end;
     margin-bottom: 20px;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.laptop-icon:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 15px #00ffff);
 }
 
 .laptop-modal {
@@ -250,4 +268,95 @@ h1 {
 .game-over-screen h1 {
     color: #f00;
     text-shadow: 0 0 10px #f00;
+}
+
+/* --- Tooltip Styles --- */
+[data-tooltip] {
+    position: relative;
+}
+
+[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px 10px;
+    border-radius: 4px;
+    background: #000;
+    color: #fff;
+    border: 1px solid #0f0;
+    white-space: nowrap;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+    margin-bottom: 5px;
+}
+
+[data-tooltip]:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* --- Laptop Menu Styles --- */
+.laptop-header-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.laptop-menu-container {
+    position: relative;
+}
+
+.laptop-menu-icon {
+    width: 30px;
+    height: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.laptop-menu-icon span {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background-color: #00ffff;
+    border-radius: 2px;
+    transition: background-color 0.3s;
+}
+
+.laptop-menu-icon:hover span {
+    background-color: #fff;
+}
+
+.laptop-menu-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background: rgba(10, 25, 47, 0.95);
+    border: 1px solid #00ffff;
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2);
+    z-index: 210;
+    padding: 10px;
+    width: 200px;
+}
+
+.laptop-menu-dropdown.hidden {
+    display: none;
+}
+
+.laptop-menu-dropdown form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.laptop-menu-dropdown .btn-holographic {
+    width: 100%;
+    text-align: left;
+    padding: 8px 12px;
 }
