@@ -1,8 +1,8 @@
-import os
-from flask import Flask, render_template, request, session, redirect, url_for, g
+from flask import Flask, render_template, request, session, redirect, url_for, g, jsonify
 from game_logic.game_state import GameState
 from game_logic.localization import set_language, get_text as _
 from game_logic.config import DEFAULT_LANGUAGE
+import os
 
 app = Flask(__name__)
 
@@ -25,14 +25,39 @@ def before_request():
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        action = request.form.get('action')
         game_state = get_game_state()
 
+        if request.is_json:
+            data = request.get_json()
+            action = data.get('action')
+            if action == 'intro_finished':
+                game_state.show_intro = False
+                session['game_state'] = game_state.to_dict()
+                return jsonify(status='success')
+            elif action == 'start_search':
+                command = data.get('command', '').strip()  # Add strip() to remove whitespace
+                print(f"Debug - Received command: '{command}'")  # Better debug format
+                if not command:  # Check if command is empty
+                    return jsonify(success=False, message='Error: No command provided')
+                if command == '/start':
+                    game_state.start_search()
+                    session['game_state'] = game_state.to_dict()
+                    return jsonify(success=True, message=get_text('search_protocol_start'))
+                return jsonify(success=False, message=f'Error: Command "{command}" not found')
+            elif action == 'check_search_results':
+                result = game_state.get_search_results()
+                session['game_state'] = game_state.to_dict()
+                return jsonify(status='success', message=result)
+            return jsonify(status='error', message='Unknown action'), 400
+
+        action = request.form.get('action')
+
         if action == 'start_new_game':
-            game_state.reset_game_state()
+            game_state = GameState()  
             game_state.current_screen = "game"
+            session['game_state'] = game_state.to_dict()
         elif action == 'exit_to_menu':
-            game_state.reset_game_state() # Or load from a save
+            game_state.reset_game_state() 
             game_state.current_screen = "main_menu"
         elif action == 'open_settings':
             session['pre_settings_screen'] = game_state.current_screen

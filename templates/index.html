@@ -7,7 +7,6 @@
     <link rel="icon" href="{{ url_for('static', filename='assets/icons/game_icon.png') }}">
 </head>
 <body>
-
     {% if gs.current_screen == 'main_menu' %}
     <div class="screen-container matrix-bg">
         <canvas id="matrix-canvas"></canvas>
@@ -34,9 +33,9 @@
     {% elif gs.current_screen == 'game' %}
     <div class="screen-container bunker-bg">
         <header class="game-header">
-            {{ get_text('day') }}: {{ gs.day }} | 
-            <img src="{{ url_for('static', filename='assets/icons/food_icon.png') }}" alt="" class="stat-icon-small"> {{ gs.food }} | 
-            <img src="{{ url_for('static', filename='assets/icons/water_icon.png') }}" alt="" class="stat-icon-small"> {{ gs.water }}
+        {{ get_text('day') }}: {{ gs.day }} | 
+        <img src="{{ url_for('static', filename='assets/icons/food_icon.png') }}" alt="" class="stat-icon-small"> {{ gs.food }} | 
+        <img src="{{ url_for('static', filename='assets/icons/water_icon.png') }}" alt="" class="stat-icon-small"> {{ gs.water }}
         </header>
 
         <div class="game-main-view">
@@ -73,7 +72,15 @@
                     <button type="submit" name="action" value="go_outing" class="btn btn-holographic">{{ get_text('go_on_outing') }}</button>
                     <button type="submit" name="action" value="charge_suit" class="btn btn-holographic">{{ get_text('charge_suit') }}</button>
                     <button type="submit" name="action" value="skip_day" class="btn btn-holographic">{{ get_text('skip_day') }}</button>
+                    <button type="button" class="btn btn-holographic" onclick="toggleSearchConsole()">{{ get_text('search_button') }}</button>
                 </form>
+                <div id="search-console" class="search-console hidden">
+                    <div class="console-output"></div>
+                    <div class="console-input">
+                        <span class="prompt">&gt;</span>
+                        <input type="text" id="command-input" autocomplete="off">
+                    </div>
+                </div>
             </div>
             <div class="messages-log-container">
                 <h3>{{ get_text('last_action_result') }}</h3>
