@@ -1,5 +1,4 @@
 import logging
-
 logger = logging.getLogger(__name__)
 
 LANGUAGES = {"uk": {}, "en": {}}
@@ -38,6 +37,12 @@ LANGUAGES["uk"] = {
     "death_health": "Здоров'я на нулі. Кінець.",
     "death_suit_charge": "Заряд костюма вичерпано. Кінець.",
     "ending_generic_death": "Ви не змогли вижити. Кінець.",
+    "ok": "Гаразд",
+    "ai_find_food_placeholder": "ШІ: Знайдено їжу (placeholder).",
+    "ai_find_water_placeholder": "ШІ: Знайдено воду (placeholder).",
+    "ai_minor_danger_placeholder": "ШІ: Невелика небезпека (placeholder).",
+    "ai_find_nothing_placeholder": "ШІ: Нічого не знайдено (placeholder).",
+    "ai_find_scrap_placeholder": "ШІ: Знайдено металобрухт (placeholder).",
 }
 
 LANGUAGES["en"] = {
@@ -73,6 +78,12 @@ LANGUAGES["en"] = {
     "death_health": "Health reached zero. The end.",
     "death_suit_charge": "Suit charge depleted. The end.",
     "ending_generic_death": "You could not survive. The end.",
+    "ok": "OK",
+    "ai_find_food_placeholder": "AI: Found food (placeholder).",
+    "ai_find_water_placeholder": "AI: Found water (placeholder).",
+    "ai_minor_danger_placeholder": "AI: Minor danger (placeholder).",
+    "ai_find_nothing_placeholder": "AI: Found nothing (placeholder).",
+    "ai_find_scrap_placeholder": "AI: Found scrap metal (placeholder).",
 }
 
 def set_language(lang_code):

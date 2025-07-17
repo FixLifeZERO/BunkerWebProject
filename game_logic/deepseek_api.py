@@ -1,8 +1,6 @@
-import logging
-import random
 from .config import DEFAULT_LANGUAGE
 from .localization import get_text
-
+import logging
 logger = logging.getLogger(__name__)
 
 API_URL = "https://api.deepseek.com/v1/chat/completions"

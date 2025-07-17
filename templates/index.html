@@ -9,12 +9,15 @@
 <body>
 
     {% if gs.current_screen == 'main_menu' %}
-    <div class="screen-container main-menu-bg">
-        <h1>{{ get_text('bunker_survival') }}</h1>
-        <form method="POST" class="button-container">
-            <button type="submit" name="action" value="start_new_game" class="btn">{{ get_text('play') }}</button>
-            <button type="submit" name="action" value="open_settings" class="btn">{{ get_text('settings') }}</button>
-        </form>
+    <div class="screen-container matrix-bg">
+        <canvas id="matrix-canvas"></canvas>
+        <div class="menu-content">
+            <h1>{{ get_text('bunker_survival') }}</h1>
+            <form method="POST" class="button-container">
+                <button type="submit" name="action" value="start_new_game" class="btn btn-matrix">{{ get_text('play') }}</button>
+                <button type="submit" name="action" value="open_settings" class="btn btn-matrix">{{ get_text('settings') }}</button>
+            </form>
+        </div>
     </div>
 
     {% elif gs.current_screen == 'settings' %}
@@ -30,54 +33,45 @@
 
     {% elif gs.current_screen == 'game' %}
     <div class="screen-container bunker-bg">
-        <div class="game-layout">
-            <header class="game-header">
-                {{ get_text('day') }}: {{ gs.day }}
-            </header>
+        <header class="game-header">
+            {{ get_text('day') }}: {{ gs.day }} | 
+            <img src="{{ url_for('static', filename='assets/icons/food_icon.png') }}" alt="" class="stat-icon-small"> {{ gs.food }} | 
+            <img src="{{ url_for('static', filename='assets/icons/water_icon.png') }}" alt="" class="stat-icon-small"> {{ gs.water }}
+        </header>
 
-            <aside class="left-panel">
-                <div class="character-display"></div>
-                <div class="stats-panel">
-                    <div class="stat-item">
-                        <span>❤️ {{ get_text('health') }}: {{ gs.health }}%</span>
-                    </div>
-                    <div class="stat-item">
-                        <img src="{{ url_for('static', filename='assets/icons/suit_icon.png') }}" alt="" class="stat-icon">
-                        <span>{{ get_text('suit_charge') }}: {{ gs.suit_charge }}%</span>
-                    </div>
-                     <div class="stat-item">
-                        <img src="{{ url_for('static', filename='assets/icons/food_icon.png') }}" alt="" class="stat-icon">
-                        <span>{{ get_text('food') }}: {{ gs.food }}</span>
-                    </div>
-                    <div class="stat-item">
-                        <img src="{{ url_for('static', filename='assets/icons/water_icon.png') }}" alt="" class="stat-icon">
-                        <span>{{ get_text('water') }}: {{ gs.water }}</span>
-                    </div>
-                </div>
-            </aside>
+        <div class="game-main-view">
+            <div class="character-area" title="{{ get_text('health') }}: {{ gs.health }}%">
+            </div>
+            <div class="suit-area" title="{{ get_text('suit_charge') }}: {{ gs.suit_charge }}%">
+            </div>
+            <div class="laptop-icon" onclick="toggleLaptop()">
+            </div>
+        </div>
 
-            <main class="center-panel">
-                <!-- This area can be used for character portraits or main events later -->
-                <div></div>
-                <div class="messages-log">
-                    <h3>{{ get_text('last_action_result') }}</h3>
-                    {% if gs.messages %}
-                        {% for message in gs.messages|reverse %}
-                        <p>{{ message }}</p>
-                        {% endfor %}
-                    {% endif %}
-                </div>
-            </main>
-
-            <aside class="right-panel">
-                <form method="POST" class="button-container">
-                    <button type="submit" name="action" value="go_outing" class="btn">{{ get_text('go_on_outing') }}</button>
-                    <button type="submit" name="action" value="charge_suit" class="btn">{{ get_text('charge_suit') }}</button>
-                    <button type="submit" name="action" value="skip_day" class="btn">{{ get_text('skip_day') }}</button>
-                    <button type="submit" name="action" value="open_settings" class="btn">{{ get_text('settings') }}</button>
-                    <button type="submit" name="action" value="exit_to_menu" class="btn">{{ get_text('exit_to_menu') }}</button>
+        <div id="laptop-modal" class="laptop-modal hidden">
+            <div class="laptop-header">
+                <h3>{{ get_text('laptop_options') }}</h3>
+                <button class="close-btn" onclick="toggleLaptop()">X</button>
+            </div>
+            <div class="laptop-content">
+                 <form method="POST" class="laptop-button-container">
+                    <button type="submit" name="action" value="go_outing" class="btn btn-holographic">{{ get_text('go_on_outing') }}</button>
+                    <button type="submit" name="action" value="charge_suit" class="btn btn-holographic">{{ get_text('charge_suit') }}</button>
+                    <button type="submit" name="action" value="skip_day" class="btn btn-holographic">{{ get_text('skip_day') }}</button>
+                    <button type="submit" name="action" value="open_settings" class="btn btn-holographic">{{ get_text('settings') }}</button>
+                    <button type="submit" name="action" value="exit_to_menu" class="btn btn-holographic">{{ get_text('exit_to_menu') }}</button>
                 </form>
-            </aside>
+            </div>
+            <div class="messages-log-container">
+                <h3>{{ get_text('last_action_result') }}</h3>
+                <div class="messages-log">
+                   {% if gs.messages %}
+                       {% for message in gs.messages|reverse %}
+                       <p>{{ message }}</p>
+                       {% endfor %}
+                   {% endif %}
+               </div>
+           </div>
         </div>
     </div>
 
@@ -91,8 +85,8 @@
             </form>
         </div>
     </div>
-
     {% endif %}
 
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

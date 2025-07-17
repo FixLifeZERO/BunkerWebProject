@@ -74,7 +74,7 @@ class GameState:
         )
         outing_event = random.choice(weighted_events)
         self.apply_effect(outing_event.get('effect', {}))
-        self.outing_result_text = get_text(outing_event.get('text_key', 'ai_find_nothing'))
+        self.outing_result_text = get_text(outing_event.get('text_key', 'ai_outing_nothing_significant'))
         self.add_message(self.outing_result_text)
         self.check_death()
 

@@ -1,4 +1,4 @@
-# Словник з усіма подіями гри
+import random   
 EVENTS = {
     "tadmavriel_1": { 
         "id": "tadmavriel_1",
@@ -119,25 +119,21 @@ EVENTS = {
     }
 }
 
-# Випадкові події під час вилазки
 GENERIC_OUTING_AI_EVENTS = [
-    {"text_key": "ai_find_food", "effect": {"food": 2}},
-    {"text_key": "ai_find_water", "effect": {"water": 2}},
-    {"text_key": "ai_minor_danger", "effect": {"health": -5}},
-    {"text_key": "ai_find_nothing", "effect": {}},
+    {"text_key": "ai_outing_found_food_small", "effect": {"food": 2}},
+    {"text_key": "ai_outing_found_water_small", "effect": {"water": 2}},
+    {"text_key": "ai_outing_minor_hazard", "effect": {"health": -5}},
+    {"text_key": "ai_outing_nothing_significant", "effect": {}},
 ]
 
-# Список стартових подій для сюжетних ліній
 STORY_EVENT_IDS = [
     "tadmavriel_1", "org_1", "reject_1"
 ]
 
 def get_event_details(event_id):
-    """Повертає деталі події за її ID."""
     return EVENTS.get(event_id)
 
 def check_event_conditions(event_details, game_state):
-    """Перевіряє, чи виконуються умови для запуску події."""
     if not event_details:
         return False
     
@@ -160,8 +156,7 @@ def check_event_conditions(event_details, game_state):
     return True
 
 def check_for_new_story_event(game_state):
-    """Перевіряє, чи не час запустити нову сюжетну подію."""
-    if game_state.current_event: # Не запускати нову подію, якщо одна вже активна
+    if game_state.current_event:
         return None
 
     possible_events = []

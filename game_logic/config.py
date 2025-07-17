@@ -5,10 +5,8 @@ load_dotenv()
 
 DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
 
-# Game settings
 DEFAULT_LANGUAGE = "uk"
 
-# Initial game state values
 INITIAL_HEALTH = 100
 INITIAL_SUIT_CHARGE = 100
 INITIAL_FOOD = 5
@@ -19,7 +17,6 @@ WATER_PER_DAY = 1
 
 SUIT_CHARGE_RECOVERY_AMOUNT = 20
 
-# Storyline start days (for reference, logic uses event conditions)
 ORGANIZATION_START_DAY = 7
 TADMAVRIEL_START_DAY = 10
 REJECTION_START_DAY = 6
