@@ -64,6 +64,9 @@ function toggleLaptop() {
     const modal = document.getElementById('laptop-modal');
     if (modal) {
         modal.classList.toggle('hidden');
+        if (!modal.classList.contains('hidden')) {
+            checkSearchResults();
+        }
     }
 }
 
@@ -78,11 +81,19 @@ function toggleLaptopMenu() {
 // --- Search Console Toggle Function ---
 function toggleSearchConsole() {
     const console = document.getElementById('search-console');
-    console.classList.toggle('hidden');
-    if (!console.classList.contains('hidden')) {
-        const output = console.querySelector('.console-output');
-        output.textContent = 'To activate the "S.F.P.A.I." protocol, write "/start"\n';
-        initializeConsole();
+    const input = document.getElementById('command-input');
+    const output = document.querySelector('.console-output');
+
+    if (console.classList.contains('hidden')) {
+        console.classList.remove('hidden');
+        // Only initialize if there's no active search
+        if (!output.dataset.searchAnimation && !output.dataset.hasResult) {
+            output.textContent = 'To activate the "S.F.P.A.I." protocol, write "/start"\n';
+            input.style.display = 'block';
+            initializeConsole();
+        }
+    } else {
+        console.classList.add('hidden');
     }
 }
 
@@ -96,17 +107,24 @@ function initializeConsole() {
             input.value = '';
             
             if (command === '/start') {
-                const response = await fetch('/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ action: 'start_search' })
-                });
-                
-                const data = await response.json();
-                if (data.status === 'success') {
-                    simulateSearchProcess();
+                try {
+                    const response = await fetch('/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ 
+                            action: 'start_search',
+                            command: '/start'
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    if (data.success) {
+                        simulateSearchProcess();
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
                 }
             }
         }
@@ -115,31 +133,70 @@ function initializeConsole() {
 
 async function simulateSearchProcess() {
     const output = document.querySelector('.console-output');
+    const input = document.getElementById('command-input');
     const searchLines = [
         'Initializing S.F.P.A.I. protocol...',
         'Scanning parallel realities...',
         'Analyzing quantum signatures...',
         'Processing dimensional data...',
         'Checking for compatible entities...',
-        'Validating results...'
+        'Validating results...',
+        'Scanning...'
     ];
     
+    // Hide input
+    input.style.display = 'none';
+    
+    // Clear and start animation
     output.textContent = '';
-    for (const line of searchLines) {
-        output.textContent += line + '\n';
-        await new Promise(resolve => setTimeout(resolve, 1000));
-    }
+    let currentLine = 0;
     
-    const response = await fetch('/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ action: 'check_search_results' })
-    });
+    // Create repeating animation
+    const animation = setInterval(() => {
+        output.textContent = searchLines.slice(0, currentLine + 1).join('\n');
+        currentLine = (currentLine + 1) % searchLines.length;
+    }, 1000);
+
+    // Store animation ID in data attribute
+    output.dataset.searchAnimation = animation;
+}
+
+// Add function to check search results when reopening laptop
+async function checkSearchResults() {
+    const output = document.querySelector('.console-output');
+    const input = document.getElementById('command-input');
     
-    const data = await response.json();
-    if (data.status === 'success') {
-        output.textContent += '\n' + data.message;
+    try {
+        const response = await fetch('/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ action: 'check_search_results' })
+        });
+        
+        const data = await response.json();
+        if (data.status === 'success') {
+            if (data.message) {
+                // If we have a result, show it and clean up
+                if (output.dataset.searchAnimation) {
+                    clearInterval(parseInt(output.dataset.searchAnimation));
+                    delete output.dataset.searchAnimation;
+                }
+                output.textContent = data.message;
+                output.dataset.hasResult = 'true';
+                input.style.display = 'none';
+            } else if (output.dataset.searchAnimation) {
+                // If search is in progress, continue animation
+                input.style.display = 'none';
+            } else if (!output.dataset.hasResult) {
+                // Only show initial message if we don't have a result
+                output.textContent = 'To activate the "S.F.P.A.I." protocol, write "/start"\n';
+                input.style.display = 'block';
+                initializeConsole();
+            }
+        }
+    } catch (error) {
+        console.error('Error checking search results:', error);
     }
 }

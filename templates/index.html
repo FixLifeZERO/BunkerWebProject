@@ -35,7 +35,8 @@
         <header class="game-header">
         {{ get_text('day') }}: {{ gs.day }} | 
         <img src="{{ url_for('static', filename='assets/icons/food_icon.png') }}" alt="" class="stat-icon-small"> {{ gs.food }} | 
-        <img src="{{ url_for('static', filename='assets/icons/water_icon.png') }}" alt="" class="stat-icon-small"> {{ gs.water }}
+        <img src="{{ url_for('static', filename='assets/icons/water_icon.png') }}" alt="" class="stat-icon-small"> {{ gs.water }} |
+        <img src="{{ url_for('static', filename='assets/icons/scrap.png') }}" alt="" class="stat-icon-small"> {{ gs.inventory.scrap }}
         </header>
 
         <div class="game-main-view">

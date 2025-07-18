@@ -26,7 +26,9 @@ class GameState:
         self.suit_charge = INITIAL_SUIT_CHARGE
         self.food = INITIAL_FOOD
         self.water = INITIAL_WATER
-        self.inventory = {}
+        self.inventory = {
+            'scrap': 0
+        }
         self.flags = {}
         self.active_quests = []
         self.completed_quests = []
@@ -44,6 +46,7 @@ class GameState:
         self.search_started = False
         self.search_complete = False
         self.search_result = None
+        self.search_start_day = 0
 
     def apply_daily_costs(self):
         self.food -= FOOD_PER_DAY
@@ -71,6 +74,11 @@ class GameState:
             self.ending = "death_suit_charge"
             self.check_death()
             return
+
+        # Add chance to find scrap (30% chance)
+        if random.random() < 0.3:
+            self.inventory['scrap'] += random.randint(1, 3)
+            self.add_message("found_scrap")
 
         weighted_events = (
             [GENERIC_OUTING_AI_EVENTS[0]] * 4 +
@@ -138,15 +146,22 @@ class GameState:
         self.search_started = True
         self.search_complete = False
         self.search_result = None
+        self.search_start_day = self.day
 
     def get_search_results(self):
         if not self.search_started or self.search_complete:
             return None
 
-        if random.random() < 0.9:  # 90% chance
-            self.search_result = get_text('search_result_not_found')
-        else:  # 10% chance
-            self.search_result = get_text('search_result_found')
+        # Check if at least one day has passed
+        if self.day <= self.search_start_day:
+            return None
+
+        # Generate result
+        if random.random() < 0.95:  # 95% chance
+            result = get_text('search_result_not_found')
+        else:  # 5% chance
+            result = get_text('search_result_found')
 
         self.search_complete = True
-        return self.search_result
+        self.search_result = result
+        return result

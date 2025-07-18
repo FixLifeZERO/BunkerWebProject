@@ -43,6 +43,8 @@ LANGUAGES["uk"] = {
     "ai_minor_danger_placeholder": "ШІ: Невелика небезпека (placeholder).",
     "ai_find_nothing_placeholder": "ШІ: Нічого не знайдено (placeholder).",
     "ai_find_scrap_placeholder": "ШІ: Знайдено металобрухт (placeholder).",
+    "found_scrap": "Ви знайшли металобрухт під час вилазки.",
+    "scrap_count": "Металобрухт: {}",
 
     # --- Intro Dialogue ---
     "intro_dialogue_1": "Щ-що?",
@@ -140,6 +142,8 @@ LANGUAGES["en"] = {
     "ai_minor_danger_placeholder": "AI: Minor danger (placeholder).",
     "ai_find_nothing_placeholder": "AI: Found nothing (placeholder).",
     "ai_find_scrap_placeholder": "AI: Found scrap metal (placeholder).",
+    "found_scrap": "You found some scrap metal during the outing.",
+    "scrap_count": "Scrap: {}",
 
 
         # --- Introductory dialog ---

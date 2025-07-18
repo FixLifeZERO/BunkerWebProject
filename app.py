@@ -30,24 +30,20 @@ def index():
         if request.is_json:
             data = request.get_json()
             action = data.get('action')
-            if action == 'intro_finished':
-                game_state.show_intro = False
+            
+            if action == 'start_search':
+                game_state.start_search()
                 session['game_state'] = game_state.to_dict()
-                return jsonify(status='success')
-            elif action == 'start_search':
-                command = data.get('command', '').strip()  # Add strip() to remove whitespace
-                print(f"Debug - Received command: '{command}'")  # Better debug format
-                if not command:  # Check if command is empty
-                    return jsonify(success=False, message='Error: No command provided')
-                if command == '/start':
-                    game_state.start_search()
-                    session['game_state'] = game_state.to_dict()
-                    return jsonify(success=True, message=get_text('search_protocol_start'))
-                return jsonify(success=False, message=f'Error: Command "{command}" not found')
+                return jsonify(success=True, message='Search started')
+                
             elif action == 'check_search_results':
                 result = game_state.get_search_results()
                 session['game_state'] = game_state.to_dict()
+                if result is None and game_state.search_started and not game_state.search_complete:
+                    # If search is in progress but no result yet
+                    return jsonify(status='success', message=None)
                 return jsonify(status='success', message=result)
+                
             return jsonify(status='error', message='Unknown action'), 400
 
         action = request.form.get('action')
@@ -83,4 +79,5 @@ def index():
     return render_template('index.html', gs=game_state, get_text=g.get_text)
 
 if __name__ == '__main__':
+    app.run(debug=True)
     app.run(debug=True)
