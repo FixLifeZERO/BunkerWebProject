@@ -27,7 +27,17 @@ class GameState:
         self.food = INITIAL_FOOD
         self.water = INITIAL_WATER
         self.inventory = {
-            'scrap': 0
+            'scrap': 0,
+        }
+        self.modules = {
+            'medical': False,
+            'food': False,
+            'water': False
+        }
+        self.last_module_use = {
+            'medical': 0,
+            'food': 0,
+            'water': 0
         }
         self.flags = {}
         self.active_quests = []
@@ -42,11 +52,15 @@ class GameState:
         self.day_story = ""
         self.outing_result_text = ""
 
-        # Search functionality
         self.search_started = False
         self.search_complete = False
         self.search_result = None
         self.search_start_day = 0
+
+        self.has_new_message = False
+        self.has_new_diary_entry = False  # Add this line
+
+        self.diary_entries = []
 
     def apply_daily_costs(self):
         self.food -= FOOD_PER_DAY
@@ -62,20 +76,17 @@ class GameState:
         self.check_death()
 
     def go_on_outing(self):
+        if self.suit_charge < SUIT_CHARGE_PER_OUTING:
+            self.add_message("suit_no_charge")
+            return False
+
         self.day += 1
         self.apply_daily_costs()
         if self.is_dead:
-            return
+            return False
 
         self.suit_charge -= SUIT_CHARGE_PER_OUTING
-        if self.suit_charge <= 0:
-            self.suit_charge = 0
-            self.health = 0
-            self.ending = "death_suit_charge"
-            self.check_death()
-            return
-
-        # Add chance to find scrap (30% chance)
+        
         if random.random() < 0.3:
             self.inventory['scrap'] += random.randint(1, 3)
             self.add_message("found_scrap")
@@ -91,7 +102,20 @@ class GameState:
         outing_key = outing_event.get('text_key', 'ai_outing_nothing_significant')
         self.outing_result_text = get_text(outing_key)
         self.add_message(outing_key)
+        
+        self.has_new_message = True
+
+        if outing_event:
+            narrative_key = self._get_narrative_key(outing_event)
+            narrative_text = get_text(narrative_key)
+            self.diary_entries.append({
+                'day': self.day,
+                'text': narrative_text
+            })
+            self.has_new_diary_entry = True 
+
         self.check_death()
+        return True
 
     def charge_suit(self):
         self.day += 1
@@ -152,16 +176,62 @@ class GameState:
         if not self.search_started or self.search_complete:
             return None
 
-        # Check if at least one day has passed
         if self.day <= self.search_start_day:
             return None
 
-        # Generate result
-        if random.random() < 0.95:  # 95% chance
+        if random.random() < 0.95:  
             result = get_text('search_result_not_found')
-        else:  # 5% chance
+        else:  
             result = get_text('search_result_found')
 
         self.search_complete = True
         self.search_result = result
         return result
+
+    def craft_module(self, module_type):
+        costs = {
+            'medical': 25,
+            'food': 17,
+            'water': 17
+        }
+        
+        if module_type in costs and self.inventory['scrap'] >= costs[module_type]:
+            self.inventory['scrap'] -= costs[module_type]
+            self.modules[module_type] = True
+            self.add_message(f"module_crafted_{module_type}")
+            return True
+        return False
+
+    def use_module(self, module_type):
+        if not self.modules[module_type]:
+            return False
+            
+        current_day = self.day
+        if current_day - self.last_module_use[module_type] < 2:
+            return False
+
+        if module_type == 'medical' and self.health < 100:
+            self.health = min(100, self.health + 30)
+            self.add_message("module_used_medical")
+        elif module_type == 'food':
+            food_amount = random.randint(1, 3)
+            self.food += food_amount
+            self.add_message("module_used_food", amount=food_amount)
+        elif module_type == 'water':
+            water_amount = random.randint(1, 3)
+            self.water += water_amount
+            self.add_message("module_used_water", amount=water_amount)
+
+        self.last_module_use[module_type] = current_day
+        return True
+
+    def _get_narrative_key(self, event):
+        if 'food' in event.get('effect', {}):
+            return random.choice(['outing_narrative_food_1', 'outing_narrative_food_2'])
+        elif 'water' in event.get('effect', {}):
+            return random.choice(['outing_narrative_water_1', 'outing_narrative_water_2'])
+        elif event.get('effect', {}).get('health', 0) < 0:
+            return random.choice(['outing_narrative_danger_1', 'outing_narrative_danger_2'])
+        elif 'found_item' in event.get('effect', {}):
+            return random.choice(['outing_narrative_scrap_1', 'outing_narrative_scrap_2'])
+        return random.choice(['outing_narrative_nothing_1', 'outing_narrative_nothing_2'])

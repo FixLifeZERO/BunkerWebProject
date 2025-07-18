@@ -20,18 +20,24 @@
     </div>
 
     {% elif gs.current_screen == 'settings' %}
-    <div class="screen-container settings-bg">
-        <h1>{{ get_text('settings') }}</h1>
-        <form method="POST" class="button-container">
-            <p>{{ get_text('language') }}:</p>
-            <button type="submit" name="action" value="set_lang_uk" class="btn">{{ get_text('ukrainian') }}</button>
-            <button type="submit" name="action" value="set_lang_en" class="btn">{{ get_text('english') }}</button>
-            <button type="submit" name="action" value="close_settings" class="btn">{{ get_text('back') }}</button>
-        </form>
+    <div class="screen-container matrix-bg">
+        <canvas id="matrix-canvas"></canvas>
+        <div class="menu-content">
+            <h1>{{ get_text('settings') }}</h1>
+            <form method="POST" class="button-container">
+                <p>{{ get_text('language') }}:</p>
+                <button type="submit" name="action" value="set_lang_uk" class="btn btn-matrix">{{ get_text('ukrainian') }}</button>
+                <button type="submit" name="action" value="set_lang_en" class="btn btn-matrix">{{ get_text('english') }}</button>
+                <button type="submit" name="action" value="close_settings" class="btn btn-matrix">{{ get_text('back') }}</button>
+            </form>
+        </div>
     </div>
 
     {% elif gs.current_screen == 'game' %}
     <div class="screen-container bunker-bg">
+        <div class="day-transition-overlay" id="dayTransition">
+            <div class="day-transition-text">{{ get_text('day') }} {{ gs.day }}</div>
+        </div>
         <header class="game-header">
         {{ get_text('day') }}: {{ gs.day }} | 
         <img src="{{ url_for('static', filename='assets/icons/food_icon.png') }}" alt="" class="stat-icon-small"> {{ gs.food }} | 
@@ -45,6 +51,9 @@
             <div class="suit-area" data-tooltip="{{ get_text('suit_charge') }}: {{ gs.suit_charge }}%">
             </div>
             <div class="laptop-icon" onclick="toggleLaptop()">
+                {% if gs.has_new_message %}
+                <div class="notification-marker"></div>
+                {% endif %}
             </div>
         </div>
 
@@ -74,12 +83,86 @@
                     <button type="submit" name="action" value="charge_suit" class="btn btn-holographic">{{ get_text('charge_suit') }}</button>
                     <button type="submit" name="action" value="skip_day" class="btn btn-holographic">{{ get_text('skip_day') }}</button>
                     <button type="button" class="btn btn-holographic" onclick="toggleSearchConsole()">{{ get_text('search_button') }}</button>
+                    <button type="button" class="btn btn-holographic" onclick="toggleModulesPanel()">{{ get_text('modules') }}</button>
+                    <button type="button" class="btn btn-holographic" onclick="toggleDiary()" id="diaryButton">
+                        {{ get_text('diary') }}
+                        {% if gs.has_new_diary_entry %}
+                        <div class="notification-marker"></div>
+                        {% endif %}
+                    </button>
                 </form>
+
                 <div id="search-console" class="search-console hidden">
                     <div class="console-output"></div>
                     <div class="console-input">
                         <span class="prompt">&gt;</span>
                         <input type="text" id="command-input" autocomplete="off">
+                    </div>
+                </div>
+
+                <div id="modules-panel" class="modules-panel hidden">
+                    <div class="module-item">
+                        <h4>{{ get_text('medical_module') }}</h4>
+                        <p>{{ get_text('medical_module_desc') }}</p>
+                        {% if not gs.modules.medical %}
+                        <form method="POST" class="inline-form">
+                            <input type="hidden" name="module_type" value="medical">
+                            <button type="submit" name="action" value="craft_module" class="btn btn-small">{{ get_text('craft') }}</button>
+                        </form>
+                        {% else %}
+                        <form method="POST" class="inline-form">
+                            <input type="hidden" name="module_type" value="medical">
+                            <button type="submit" name="action" value="use_module" class="btn btn-small">{{ get_text('use') }}</button>
+                        </form>
+                        {% endif %}
+                    </div>
+
+                    <div class="module-item">
+                        <h4>{{ get_text('food_module') }}</h4>
+                        <p>{{ get_text('food_module_desc') }}</p>
+                        {% if not gs.modules.food %}
+                        <form method="POST" class="inline-form">
+                            <input type="hidden" name="module_type" value="food">
+                            <button type="submit" name="action" value="craft_module" class="btn btn-small">{{ get_text('craft') }}</button>
+                        </form>
+                        {% else %}
+                        <form method="POST" class="inline-form">
+                            <input type="hidden" name="module_type" value="food">
+                            <button type="submit" name="action" value="use_module" class="btn btn-small">{{ get_text('use') }}</button>
+                        </form>
+                        {% endif %}
+                    </div>
+
+                    <div class="module-item">
+                        <h4>{{ get_text('water_module') }}</h4>
+                        <p>{{ get_text('water_module_desc') }}</p>
+                        {% if not gs.modules.water %}
+                        <form method="POST" class="inline-form">
+                            <input type="hidden" name="module_type" value="water">
+                            <button type="submit" name="action" value="craft_module" class="btn btn-small">{{ get_text('craft') }}</button>
+                        </form>
+                        {% else %}
+                        <form method="POST" class="inline-form">
+                            <input type="hidden" name="module_type" value="water">
+                            <button type="submit" name="action" value="use_module" class="btn btn-small">{{ get_text('use') }}</button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div id="diary-panel" class="diary-panel hidden">
+                    <h3>{{ get_text('diary_title') }}</h3>
+                    <div class="diary-entries">
+                        {% if gs.diary_entries %}
+                            {% for entry in gs.diary_entries|reverse %}
+                            <div class="diary-entry">
+                                <div class="entry-day">{{ get_text('day') }} {{ entry.day }}</div>
+                                <p>{{ entry.text }}</p>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <p class="no-entries">{{ get_text('no_diary_entries') }}</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>

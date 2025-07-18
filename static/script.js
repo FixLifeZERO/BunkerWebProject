@@ -62,10 +62,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
 // --- Laptop Modal Toggle Function ---
 function toggleLaptop() {
     const modal = document.getElementById('laptop-modal');
+    const notificationMarker = document.querySelector('.notification-marker');
+    
     if (modal) {
         modal.classList.toggle('hidden');
         if (!modal.classList.contains('hidden')) {
             checkSearchResults();
+            // Remove notification marker when opening laptop
+            if (notificationMarker) {
+                notificationMarker.remove();
+            }
         }
     }
 }
@@ -200,3 +206,50 @@ async function checkSearchResults() {
         console.error('Error checking search results:', error);
     }
 }
+
+// --- Modules Panel Toggle Function ---
+function toggleModulesPanel() {
+    const panel = document.getElementById('modules-panel');
+    if (panel) {
+        panel.classList.toggle('hidden');
+    }
+}
+
+// --- Diary Panel Toggle Function ---
+function toggleDiary() {
+    const panel = document.getElementById('diary-panel');
+    const notificationMarker = document.querySelector('#diaryButton .notification-marker');
+    
+    if (panel) {
+        panel.classList.toggle('hidden');
+        // Remove notification marker when opening diary
+        if (notificationMarker) {
+            notificationMarker.remove();
+        }
+    }
+}
+
+// --- Day Transition Animation ---
+function showDayTransition(dayNumber) {
+    const overlay = document.getElementById('dayTransition');
+    
+    // Show overlay
+    overlay.classList.add('visible');
+    
+    // Hide after 2 seconds
+    setTimeout(() => {
+        overlay.classList.remove('visible');
+    }, 2000);
+}
+
+// Modify the existing form submissions to handle day transitions
+document.addEventListener('DOMContentLoaded', () => {
+    // Check if we need to show day transition
+    const urlParams = new URLSearchParams(window.location.search);
+    const newDay = urlParams.get('new_day');
+    if (newDay === 'true') {
+        showDayTransition();
+        // Clean up URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+});

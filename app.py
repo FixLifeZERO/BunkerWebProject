@@ -26,6 +26,7 @@ def before_request():
 def index():
     if request.method == 'POST':
         game_state = get_game_state()
+        old_day = game_state.day
 
         if request.is_json:
             data = request.get_json()
@@ -40,7 +41,6 @@ def index():
                 result = game_state.get_search_results()
                 session['game_state'] = game_state.to_dict()
                 if result is None and game_state.search_started and not game_state.search_complete:
-                    # If search is in progress but no result yet
                     return jsonify(status='success', message=None)
                 return jsonify(status='success', message=result)
                 
@@ -65,12 +65,24 @@ def index():
             session['language'] = lang
             set_language(lang)
         elif action == 'go_outing':
-            game_state.go_on_outing()
+            if not game_state.go_on_outing():
+                return redirect(url_for('index'))
         elif action == 'charge_suit':
             game_state.charge_suit()
         elif action == 'skip_day':
             game_state.skip_day()
+        elif action == 'craft_module':
+            module_type = request.form.get('module_type')
+            game_state.craft_module(module_type)
+        elif action == 'use_module':
+            module_type = request.form.get('module_type')
+            game_state.use_module(module_type)
 
+
+        # Check if day changed
+        if game_state.day > old_day:
+            session['game_state'] = game_state.to_dict()
+            return redirect(url_for('index', new_day='true'))
 
         session['game_state'] = game_state.to_dict()
         return redirect(url_for('index'))

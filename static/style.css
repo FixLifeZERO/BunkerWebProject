@@ -42,6 +42,18 @@ body, html {
     border-radius: 10px;
 }
 
+.menu-content p {
+    color: #0f0;
+    font-size: 1.2em;
+    text-shadow: 0 0 5px #0f0;
+    margin: 10px 0;
+}
+
+.settings-container {
+    position: relative;
+    z-index: 2;
+}
+
 .settings-bg {
     background-image: url('assets/backgrounds/settings_bg.png');
 }
@@ -167,11 +179,30 @@ h1 {
     justify-self: end;
     margin-bottom: 20px;
     transition: transform 0.3s ease, filter 0.3s ease;
+    position: relative;
 }
 
 .laptop-icon:hover {
     transform: scale(1.05);
     filter: drop-shadow(0 0 15px #00ffff);
+}
+
+.notification-marker {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 12px;
+    height: 12px;
+    background-color: #ff0000;
+    border-radius: 50%;
+    border: 2px solid #000;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
 }
 
 .laptop-modal {
@@ -228,6 +259,7 @@ h1 {
     background: rgba(0, 255, 255, 0.1);
     border: 1px solid #00ffff;
     color: #00ffff;
+    position: relative;  /* Add this line */
 }
 
 .btn-holographic:hover {
@@ -398,4 +430,130 @@ h1 {
     font-family: inherit;
     flex-grow: 1;
     outline: none;
+}
+
+.modules-panel {
+    margin-top: 20px;
+    border: 1px solid #00ff00;
+    padding: 15px;
+    background: rgba(0, 20, 0, 0.3);
+}
+
+.modules-panel.hidden {
+    display: none;
+}
+
+.module-item {
+    border-bottom: 1px solid rgba(0, 255, 0, 0.3);
+    padding: 10px 0;
+    margin-bottom: 10px;
+}
+
+.module-item h4 {
+    color: #00ff00;
+    margin: 0 0 5px 0;
+}
+
+.module-item p {
+    color: #88ff88;
+    font-size: 0.9em;
+    margin: 5px 0;
+}
+
+.btn-small {
+    padding: 5px 10px;
+    font-size: 0.9em;
+}
+
+.inline-form {
+    display: inline-block;
+}
+
+.diary-panel {
+    margin-top: 20px;
+    border: 1px solid #00ff00;
+    padding: 15px;
+    background: rgba(0, 20, 0, 0.3);
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.diary-panel.hidden {
+    display: none;
+}
+
+.diary-panel h3 {
+    color: #00ff00;
+    margin: 0 0 15px 0;
+    text-align: center;
+    border-bottom: 1px solid #00ff00;
+    padding-bottom: 10px;
+    flex-shrink: 0;
+}
+
+.diary-entries {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.diary-entry {
+    padding: 10px;
+    background: rgba(0, 30, 0, 0.4);
+    border: 1px solid rgba(0, 255, 0, 0.2);
+    border-radius: 5px;
+}
+
+.entry-day {
+    color: #00ff00;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+}
+
+.no-entries {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+}
+
+.day-transition-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease-in-out;
+}
+
+.day-transition-overlay.visible {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.day-transition-text {
+    color: #0f0;
+    font-size: 3em;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px #0f0;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 5px #0f0, 0 0 10px #0f0;
+    }
+    to {
+        text-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 30px #0f0;
+    }
 }
