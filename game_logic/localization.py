@@ -250,9 +250,9 @@ LANGUAGES["en"] = {
     "module_crafted_food": "Харчовий модуль створено",
     "module_crafted_water": "Модуль фільтрації води створено",
     "module_used_medical": "Медичний модуль використано. Здоров'я відновлено",
-    "module_used_food": "Харчовий модуль виробив {} банок супу",
-    "module_used_water": "Модуль фільтрації виробив {} пляшок води",
-    "module_cooldown": "Модуль можна використати через {} днів",
+    "module_used_food": "Харчовий модуль виробив {amount} банок супу",
+    "module_used_water": "Модуль фільтрації виробив {amount} пляшок води",
+    "module_cooldown": "Модуль можна використати через {amount} днів",
     "not_enough_scrap": "Недостатньо металобрухту",
     "medical_module_desc": "Лікує рани кожні 2 дні (25 металобрухту)",
     "food_module_desc": "Виробляє 1-3 банки супу кожні 2 дні (17 металобрухту)",
@@ -377,24 +377,24 @@ LANGUAGES["en"] = {
     "search_result_found": "A person in a parallel reality has been found.\n\nStatus \"Ascension\": Active by subject\n\nRecommended actions: Go to the world \"Misr\" (world coordinates: \"Y:#14^3 X:34.4^0 Z:34d^1x\") and activate the ascent",
 
     # --- Modules ---
-    "modules": "Модулі",
-    "medical_module": "Медичний модуль",
-    "food_module": "Харчовий модуль",
-    "water_module": "Модуль фільтрації води",
-    "craft": "Створити",
-    "use": "Використати",
-    "module_crafted_medical": "Медичний модуль створено",
-    "module_crafted_food": "Харчовий модуль створено",
-    "module_crafted_water": "Модуль фільтрації води створено",
-    "module_used_medical": "Медичний модуль використано. Здоров'я відновлено",
-    "module_used_food": "Харчовий модуль виробив {} банок супу",
-    "module_used_water": "Модуль фільтрації виробив {} пляшок води",
-    "module_cooldown": "Модуль можна використати через {} днів",
-    "not_enough_scrap": "Недостатньо металобрухту",
-    "medical_module_desc": "Лікує рани кожні 2 дні (25 металобрухту)",
-    "food_module_desc": "Виробляє 1-3 банки супу кожні 2 дні (17 металобрухту)",
-    "water_module_desc": "Фільтрує 1-3 пляшки води кожні 2 дні (17 металобрухту)",
-    "suit_no_charge": "Недостатньо заряду костюма для вилазки! Спочатку зарядіть його.",
+    "modules": "Modules",
+    "medical_module": "Medical Module",
+    "food_module": "Food Module",
+    "water_module": "Water Filtration Module",
+    "craft": "craft",
+    "use": "Use",
+    "module_crafted_medical": "Medical module crafted",
+    "module_crafted_food": "Food module crafted",
+    "module_crafted_water": "Water filtration module crafted",
+    "module_used_medical": "Medical module used. Health restored",
+    "module_used_food": "Food module produced {amount} cans of soup",
+    "module_used_water": "Water filtration module produced {amount} bottles of water",
+    "module_cooldown": "Module can be used in {amount} days",
+    "not_enough_scrap": "Not enough scrap metal",
+    "medical_module_desc": "Heals wounds every 2 days (25 scrap metal)",
+    "food_module_desc": "Produces 1-3 cans of soup every 2 days (17 scrap metal)",
+    "water_module_desc": "Filters 1-3 bottles of water every 2 days (17 scrap metal)",
+    "suit_no_charge": "Not enough suit charge for outing! Please recharge it first.",
 
     # --- Outing Narrative Texts ---
     "outing_narrative_food_1": "Walking slowly through empty streets, I noticed an abandoned building with a faded sign. It turned out to be an old store, its door creaking under my push. Inside - silence, smell of dust and broken shelves. However, looking around, I found some canned food.",
@@ -409,9 +409,9 @@ LANGUAGES["en"] = {
     "outing_narrative_nothing_2": "I examined a residential complex but found only empty apartments and broken furniture. Nothing useful was discovered.",
 
     # --- Diary ---
-    "diary": "Щоденник",
-    "diary_title": "Записи в щоденнику",
-    "no_diary_entries": "Поки що немає записів у щоденнику..."
+    "diary": "Diary",
+    "diary_title": "Diary Entries",
+    "no_diary_entries": "No diary entries yet..."
 }
 
 def set_language(lang_code):
